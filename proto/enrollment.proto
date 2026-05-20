@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package enrollment.v1;
+
+option go_package = "github.com/drhamilton/enrollment-rules-svc/gen/enrollment/v1;enrollmentv1";
+
+message Applicant {
+  string id = 1;
+  int32  age = 2;
+  string state = 3;
+  string product_type = 4;
+  float  risk_score = 5;
+}
+
+message Decision {
+  string applicant_id = 1;
+  bool   eligible = 2;
+  string reason = 3;
+}
+
+message RuleDecision {
+  string rule_name = 1;
+  bool   passed = 2;
+  string reason = 3;
+}
+
+service RulesService {
+  rpc EvaluateApplicant(Applicant) returns (Decision);
+  rpc EvaluateApplicantAllRules(Applicant) returns (stream RuleDecision);
+  rpc BatchEvaluate(stream Applicant) returns (stream Decision);
+}
