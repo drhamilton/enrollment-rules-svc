@@ -38,3 +38,20 @@ func Evaluate(rule Rule, applicant Applicant) Decision {
 	return fn(rule, applicant)
 }
 
+func EvaluateAll(rules []Rule, applicant Applicant) []Decision {
+	decisions := make([]Decision, len(rules))
+	for i, rule := range rules {
+		decisions[i] = Evaluate(rule, applicant)
+	}
+	return decisions
+}
+
+func Verdict(decisions []Decision) (bool, string) {
+	for _, d := range decisions {
+		if !d.Passed {
+			return false, d.Reason
+		}
+	}
+	return true, "all rules passed"
+}
+

@@ -3,3 +3,5 @@ gen/
 .claude/
 HANDOFF.md
 PROGRESS.md
+TASKS.md
+tmp/
